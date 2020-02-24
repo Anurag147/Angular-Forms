@@ -1,0 +1,53 @@
+<!--Template driven approach to create a submit a form in Angular 8-->
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+        <!--ngModel tells angular that it is a form control, name property is mandatory to use ngModel-->
+        <!--#form="ngForm" is used to create a form object and pass it to angular module as json string-->
+        <form (ngSubmit)="onSubmit()" #form="ngForm">
+          <div id="user-data" >
+            <!--ngModelGroup is used to group multiple controls in one json object-->
+            <div class="form-group">
+              <label for="email">Mail</label>
+              <input 
+              type="email" 
+              id="email" 
+              class="form-control" 
+              name="email" 
+              ngModel
+              required
+              email
+              #email="ngModel">
+              <!--email tag is used to add validation for this field to be of type email-->
+              <!-- #email="ngModel" is added to create a reference to this field-->
+              <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>
+              <!--Show above span if email is invalid-->
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="subscription">Subscription</label>
+            <select id="subscription" class="form-control" name="subscription" [ngModel]="defaultSubscrition"><!--Bind ngModel to a default value-->
+              <option value="Basic">Basic</option>
+              <option value="Advanced">Advanced</option>
+              <option value="Pro">Pro</option>
+            </select>
+          </div>
+          <button 
+          class="btn btn-primary" 
+          type="submit"
+          [disabled]="!form.valid"><!--Disable the button if form is invalid-->
+          Submit</button>
+        </form>
+      </div>
+    </div>
+    <div class="row" *ngIf="submitted">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+        <hr>
+        <h3>Your Data</h3>
+        <p>Mail: {{user.email}}</p>
+        <p>Subscription: {{user.subscription}}</p>
+      </div>
+    </div>
+  </div>
+  
+

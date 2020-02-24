@@ -1,0 +1,80 @@
+<!--Template driven approach to create a submit a form in Angular 8-->
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+        <!--ngModel tells angular that it is a form control, name property is mandatory to use ngModel-->
+        <!--#form="ngForm" is used to create a form object and pass it to angular module as json string-->
+        <form (ngSubmit)="onSubmit()" #form="ngForm">
+          <div id="user-data" 
+          ngModelGroup="userData"
+          #userData="ngModelGroup">
+            <!--ngModelGroup is used to group multiple controls in one json object-->
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input 
+              type="text" 
+              id="username" 
+              class="form-control" 
+              name="username" 
+              ngModel
+              required><!--Required tag is added to inform the DOM to make this field mandatory-->
+            </div>
+            <button 
+            class="btn btn-default" 
+            type="button"
+            (click)="suggestUserName();">Suggest an Username</button>
+            <div class="form-group">
+              <label for="email">Mail</label>
+              <input 
+              type="email" 
+              id="email" 
+              class="form-control" 
+              name="email" 
+              ngModel
+              required
+              email
+              #email="ngModel">
+              <!--email tag is used to add validation for this field to be of type email-->
+              <!-- #email="ngModel" is added to create a reference to this field-->
+              <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>
+              <!--Show above span if email is invalid-->
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="secret">Secret Questions</label>
+            <select id="secret" class="form-control" name="secret" [ngModel]="defaultQuestion"><!--Bind ngModel to a default value-->
+              <option value="pet">Your first Pet?</option>
+              <option value="teacher">Your first teacher?</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <textarea rows="3" [(ngModel)]="answer" class="form-control" name="answer"></textarea>
+            <p>Your reply: {{answer}}</p>
+            <div class="radio" *ngFor="let gender of genders">
+              <label>
+                <input type="radio" name="gender" ngModel [value]="gender">
+                {{gender}}
+              </label>
+            </div>
+          </div>
+          <button 
+          class="btn btn-primary" 
+          type="submit"
+          [disabled]="!form.valid"><!--Disable the button if form is invalid-->
+          Submit</button>
+        </form>
+      </div>
+    </div>
+    <div class="row" *ngIf="submitted">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+        <hr>
+        <h3>Your Data</h3>
+        <p>User Name: {{user.username}}</p>
+        <p>Mail: {{user.email}}</p>
+        <p>Secret Question: {{user.secretQuestion}}</p>
+        <p>Answer: {{user.answer}}</p>
+        <p>Gender: {{user.gender}}</p>
+      </div>
+    </div>
+  </div>
+  
